@@ -12,15 +12,18 @@ const listContacts = async () =>{
 
 const getContactById = async (contactId) => {
     const request = await fs.readFile(contactsPath, "utf8");
-    const respons = JSON.parse(request);
-    const search = respons.find(num => (num.id === contactId))
-    console.log(search)
+    const respons = await JSON.parse(request);
+  respons.forEach(num => {
+    if (num.id === Number(contactId)) {
+      console.log(num)
+    }
+    })
 }
 
 const removeContact = async (contactId) => {
   const request = await fs.readFile(contactsPath, "utf8");
   const respons = JSON.parse(request);
-  const del = respons.filter(num => (num.id !== contactId));
+  const del = respons.filter(num => (num.id !== Number(contactId)));
   const data = JSON.stringify(del);
   await fs.writeFile(contactsPath, data);
   console.log(listContacts());
